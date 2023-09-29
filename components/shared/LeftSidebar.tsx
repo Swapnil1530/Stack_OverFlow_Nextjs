@@ -18,7 +18,7 @@ const LeftSidebar = () => {
             (pathname.includes(item.route) && item.route.length > 1) ||
             pathname === item.route;
 
-          // TODO
+         
 
           return (
             <Link
