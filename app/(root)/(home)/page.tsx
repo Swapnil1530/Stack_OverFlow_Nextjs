@@ -7,45 +7,10 @@ import { HomePageFilters } from "@/constants/filter";
 import HomeFilters from "@/components/home/HomeFilter";
 import NoResult from "@/components/shared/NoResult";
 import QuestionsCard from "@/components/cards/QuestionsCard";
+import { getQuestions } from "@/lib/actions/question.action";
 
-const questions = [
-  {
-    id: "1",
-    title: "This is question 1",
-    tags: [
-      { id: "1", name: "python" },
-      { id: "2", name: "sql" },
-    ],
-    author: {
-      id: "1",
-      name: "Patel Swapnil",
-      picture: "https://avatars.githubusercontent.com/u/56163560?v=4",
-    },
-    upvotes: 100000,
-    views: 10000000,
-    answers: [],
-    createdAt: new Date("2023-09-20T18:30:00.000Z"),
-  },
-  {
-    id: "2",
-    title: "This is question 2",
-    tags: [
-      { id: "1", name: "Javascript" },
-      { id: "2", name: "React js" },
-    ],
-    author: {
-      id: "2",
-      name: "Patel Krish",
-      picture: "https://avatars.githubusercontent.com/u/56163560?v=4",
-    },
-    upvotes: 5,
-    views: 50,
-    answers: [],
-    createdAt: new Date("2021-09-20T18:30:00.000Z"),
-  },
-];
-
-const page = () => {
+const page = async () => {
+  const result = await getQuestions({});
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -76,8 +41,8 @@ const page = () => {
 
       <HomeFilters />
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => (
             <QuestionsCard
               key={question.id}
               id={question.id}
