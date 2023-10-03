@@ -1,14 +1,24 @@
 import Answer from "@/components/forms/Answer";
+import AllAnswers from "@/components/shared/AllAnswers";
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import RenderTag from "@/components/shared/RenderTag";
 import { getQuestionById } from "@/lib/actions/question.action";
+import { getUserById } from "@/lib/actions/user.action";
 import { formatAndDivideNumber, getTimeStamp } from "@/lib/utils";
+import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const Page = async ({ params, searchParams }: any) => {
+  const { userId: clerkId } = auth();
+
+  let mongoUser;
+
+  if (clerkId) {
+    mongoUser = await getUserById({ userId: clerkId });
+  }
   const result = await getQuestionById({ questionId: params.id });
 
   return (
@@ -30,7 +40,7 @@ const Page = async ({ params, searchParams }: any) => {
               {result.author.name}
             </p>
           </Link>
-          <div className="flex justify-end">VOTING</div>
+          <div className="flex justify-end">{/* <Votes /> */}</div>
         </div>
         <h2 className="h2-semibold text-dark200_light900 mt-3.5 w-full text-left">
           {result.title}
@@ -61,7 +71,7 @@ const Page = async ({ params, searchParams }: any) => {
         />
       </div>
 
-      <ParseHTML data={result.content} />
+      <ParseHTML data={result.content}/>
 
       <div className="mt-8 flex flex-wrap gap-2">
         {result.tags.map((tag: any) => (
@@ -74,7 +84,17 @@ const Page = async ({ params, searchParams }: any) => {
         ))}
       </div>
 
-      <Answer />
+      <AllAnswers
+        questionId={result._id}
+        userId={JSON.stringify(mongoUser._id)}
+        totalAnswers={result.answers.length}
+      />
+
+      <Answer
+        question={result.content}
+        questionId={JSON.stringify(result._id)}
+        authorId={JSON.stringify(mongoUser._id)}
+      />
     </>
   );
 };
