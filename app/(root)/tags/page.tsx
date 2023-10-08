@@ -3,11 +3,14 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { UserFilters } from "@/constants/filter";
 import { getAllTags } from "@/lib/actions/tag.actions";
+import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 import React from "react";
 
-const page = async () => {
-  const result = await getAllTags({});
+const page = async ({ searchParams }: SearchParamsProps) => {
+  const result = await getAllTags({
+    searchQuery: searchParams.q,
+  });
   return (
     <>
       <h1 className="h1-bold text-dark100_light900">All Tags</h1>
@@ -36,6 +39,12 @@ const page = async () => {
                     {tag.name}
                   </p>
                 </div>
+                <p className="small-medium text-dark400_light500 mt-3.5">
+                  <span className="body-semibold primary-text-gradient mr-2.5">
+                    {tag.questions.length}+
+                  </span>{" "}
+                  Questions
+                </p>
               </article>
             </Link>
           ))
