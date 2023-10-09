@@ -9,6 +9,7 @@ import React from "react";
 const CommunityPage = async ({ searchParams }: SearchParamsProps) => {
   const result = await getAllUsers({
     searchQuery: searchParams.q,
+    filter: searchParams.filter,
   });
   return (
     <div>
