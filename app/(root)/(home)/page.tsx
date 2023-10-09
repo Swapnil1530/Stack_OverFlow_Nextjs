@@ -6,6 +6,7 @@ import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filter";
 import { IQuestion } from "@/database/question.model";
+import { getQuestions } from "@/lib/actions/question.action";
 import { getSavedQuestions } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
@@ -16,9 +17,10 @@ export default async function Home({ searchParams }: SearchParamsProps) {
 
   if (!userId) return null;
 
-  const result = await getSavedQuestions({
-    clerkId: userId,
+  const result = await getQuestions({
     searchQuery: searchParams.q,
+    filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
   });
 
   return (
