@@ -9,7 +9,7 @@ import {
 } from "./shared";
 import { revalidatePath } from "next/cache";
 import Question from "@/database/question.model";
-import { connect } from "http2";
+
 import Interaction from "@/database/interaction.model";
 import User from "@/database/user.model";
 
