@@ -319,7 +319,6 @@ export async function getUserInfo(params: GetUserByIdParams) {
     ];
 
     const badgeCounts = assignBadges({ criteria });
-    console.log(badgeCounts);
 
     return {
       user,

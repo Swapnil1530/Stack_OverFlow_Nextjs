@@ -12,12 +12,9 @@ import { getSavedQuestions } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
 import Link from "next/link";
+import Loading from "./loading";
 
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const { userId } = auth();
-
-  if (!userId) return null;
-
   const result = await getQuestions({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
