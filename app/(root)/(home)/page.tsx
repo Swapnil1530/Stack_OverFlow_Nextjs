@@ -8,11 +8,14 @@ import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filter";
 import { IQuestion } from "@/database/question.model";
 import { getQuestions } from "@/lib/actions/question.action";
-import { getSavedQuestions } from "@/lib/actions/user.action";
+import type { Metadata } from "next";
 import { SearchParamsProps } from "@/types";
-import { auth } from "@clerk/nextjs";
+
+export const metadata: Metadata = {
+  title: "Home | Next Overflow",
+};
+
 import Link from "next/link";
-import Loading from "./loading";
 
 export default async function Home({ searchParams }: SearchParamsProps) {
   const result = await getQuestions({
