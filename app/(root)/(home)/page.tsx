@@ -6,26 +6,48 @@ import Pagination from "@/components/shared/Pagination";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filter";
-import { IQuestion } from "@/database/question.model";
-import { getQuestions } from "@/lib/actions/question.action";
-import type { Metadata } from "next";
+import {
+  getQuestions,
+  getRecommendedQuestions,
+} from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
-
-export const metadata: Metadata = {
-  title: "Home | Next Overflow",
-};
-
 import Link from "next/link";
 
+import type { Metadata } from "next";
+import { auth } from "@clerk/nextjs";
+
+export const metadata: Metadata = {
+  title: "Home | Dev Overflow",
+};
+
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const result = await getQuestions({
-    searchQuery: searchParams.q,
-    filter: searchParams.filter,
-    page: searchParams.page ? +searchParams.page : 1,
-  });
+  const { userId } = auth();
+
+  let result;
+
+  if (searchParams?.filter === "recommended") {
+    if (userId) {
+      result = await getRecommendedQuestions({
+        userId,
+        searchQuery: searchParams.q,
+        page: searchParams.page ? +searchParams.page : 1,
+      });
+    } else {
+      result = {
+        questions: [],
+        isNext: false,
+      };
+    }
+  } else {
+    result = await getQuestions({
+      searchQuery: searchParams.q,
+      filter: searchParams.filter,
+      page: searchParams.page ? +searchParams.page : 1,
+    });
+  }
 
   return (
-    <div>
+    <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
         <h1 className="h1-bold text-dark100_light900">All Questions</h1>
 
@@ -84,6 +106,6 @@ export default async function Home({ searchParams }: SearchParamsProps) {
           isNext={result.isNext}
         />
       </div>
-    </div>
+    </>
   );
 }
