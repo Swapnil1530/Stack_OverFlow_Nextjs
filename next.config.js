@@ -1,22 +1,23 @@
 /** @type {import('next').NextConfig} */
+const { withAxiom } = require("next-axiom");
 const nextConfig = {
   experimental: {
     serverActions: true,
     mdxRs: true,
-    serverComponentsExternalPackages: ['mongoose']
+    serverComponentsExternalPackages: ["mongoose"],
   },
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '*'
-      }, 
+        protocol: "https",
+        hostname: "*",
+      },
       {
-        protocol: 'http',
-        hostname: '*'
-      }, 
-    ]
-  }
-}
+        protocol: "http",
+        hostname: "*",
+      },
+    ],
+  },
+};
 
-module.exports = nextConfig
+module.exports = withAxiom(nextConfig);
