@@ -1,5 +1,5 @@
 // import { withAxiom } from "next-axiom";
-const { withAxiom } = require("next-axiom");
+
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
@@ -22,4 +22,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withAxiom(nextConfig);
+module.exports = nextConfig;
