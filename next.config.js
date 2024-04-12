@@ -1,5 +1,6 @@
-/** @type {import('next').NextConfig} */
 import { withAxiom } from "next-axiom";
+/** @type {import('next').NextConfig} */
+
 const nextConfig = {
   experimental: {
     serverActions: true,
